@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Covid19 Tracker{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block active %} active{% endblock active %}
+
+{% block content %}
+<div class="col-md-8 p-4 text-white">  
+  
+  {% if errorcode %}
+  <div class="alert alert-warning alert-dismissible fade show text-dark" role="alert">
+    <strong>{{ errorcode }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+
+    <h4 class="fst-italic">Live Covid Updates - State Wise</h4>
+   
+    <hr class="bg-light">
+
+    <form method="POST" action="">
+      {% csrf_token %}
+      <table>{{ form|crispy }}</table>
+      <button type="submit" class="btn btn-primary btn-block">Search</button>
+    </form>
+
+     {% if update %}
+     <h4 class="display-4 fst-italic p-3 my-2">Live Updates</h4> 
+     <div class="card text-dark my-3 bg-warning">   
+      <div class="card-body"> 
+        <p class="card-title"> 
+        State: <strong>{{update.search}}</strong>  | State Code: <strong>{{update.code}}</strong>
+      </p> <p class="card-text">Reference:<a href="{{update.url}}">{{update.url}}</a></p>
+      </div>
+    </div>
+
+    <table class="table table-dark my-4 text-center">
+   
+      <tbody>
+        <tr>
+          <td class="display-4 fst-italic p-3 my-2">Total Confirmed Cases</td>
+        </tr>
+        <tr scope="row">
+          <td>{{update.confirmed}}</td>
+        </tr> 
+        <tr>
+          <td class="display-4 fst-italic p-3 my-2">Total Recovered Cases</td>
+        </tr>
+        <tr scope="row">
+          <td>{{update.recovered}}</td>
+        </tr> 
+        <tr>
+          <td class="display-4 fst-italic p-3 my-2">Total Decease Cases</td>
+        </tr>
+        <tr scope="row">
+          <td>{{update.decease}}</td> 
+        </tr>   
+        
+        <tr>
+          <td class="display-4 fst-italic p-3 my-2">Final State Wise</td>
+        </tr>
+        <tr scope="row">
+          <td>{{update.final_state_wise}}</td> 
+          <td>{{update.final_state_wise_date}}</td>
+          <td>{{update.totaltotal_state_data}}</td>
+        </tr>   
+
+      </tbody>
+    </table>
+      {% else %}
+       <!--Message here-->
+    {% endif %}
+ 
+    <div class="alert alert-dark my-4" role="alert">
+      <h1 class="display-4 fst-italic text-center">State - Code Details</h1>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{update.scd}}
+      </div>
+    </div>
+ 
+ </div>
+{% endblock content %}
+
